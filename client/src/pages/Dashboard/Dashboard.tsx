@@ -1,9 +1,11 @@
 import SummaryCards from "../../components/dashboard/SummaryCards";
 import RecentTransactions from "../../components/dashboard/RecentTransactions";
+import SpendingChart from "../../components/dashboard/SpendingChart";
 
 export default function Dashboard() {
   return (
      <div className="space-y-8">
+        {/*Header*/}
       <div>
         <h1 className="text-3xl font-bold">
           Dashboard
@@ -15,6 +17,7 @@ export default function Dashboard() {
       </div>
 
       <SummaryCards />
+      <SpendingChart/>
       <RecentTransactions />
     </div>
   );
