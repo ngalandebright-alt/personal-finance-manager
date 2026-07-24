@@ -11,10 +11,21 @@ import {
 
 import { TransactionContext } from "../../context/TransactionContext";
 
+type SpendingChartTransaction = {
+  amount: number;
+  type: "income" | "expense";
+  category?: string | null;
+};
+
+type SpendingChartContext = {
+  transactions: SpendingChartTransaction[];
+};
 
 export default function SpendingChart() {
 
-  const context = useContext(TransactionContext);
+  const context = useContext(TransactionContext) as unknown as SpendingChartContext | null;
+
+   console.log("Transaction context:", context);
 
   if (!context) return null;
 

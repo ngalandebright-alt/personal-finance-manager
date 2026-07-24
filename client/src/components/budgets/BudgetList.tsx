@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { BudgetContext } from "../../context/BudgetContext";
 import { TransactionContext } from "../../context/TransactionContext";
+import  type { Transaction } from "../../types/transaction";
 
 export default function BudgetList() {
 
@@ -15,7 +16,7 @@ export default function BudgetList() {
 
 
   const { budget } = budgetContext;
-  const { transactions } = transactionContext;
+  const {transactions} = transactionContext;
 
 
   return (
@@ -40,12 +41,12 @@ export default function BudgetList() {
 
             const spent = transactions
               .filter(
-                (transaction) =>
+                (transaction: Transaction) =>
                   transaction.category === item.category &&
                   transaction.type === "expense"
               )
               .reduce(
-                (total, transaction) =>
+                (total: number, transaction: Transaction) =>
                   total + transaction.amount,
                 0
               );

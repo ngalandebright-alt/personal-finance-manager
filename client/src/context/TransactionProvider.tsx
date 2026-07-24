@@ -31,6 +31,33 @@ export default function TransactionProvider({
 
     }, [transactions]);
 
+
+
+      function updateTransaction(updatedTransaction: Transaction) {
+
+  setTransactions((prev) =>
+    prev.map((transaction) =>
+      transaction.id === updatedTransaction.id
+        ? updatedTransaction
+        : transaction
+    )
+  );
+
+}
+
+
+function deleteTransaction(id: number) {
+
+  setTransactions((prev) =>
+    prev.filter(
+      (transaction) => transaction.id !== id
+    )
+  );
+
+}
+
+
+
     function addTransaction(transaction: Transaction) {
 
         setTransactions((prev) => [
@@ -45,6 +72,8 @@ export default function TransactionProvider({
            value={{
              transactions,
              addTransaction,
+             updateTransaction,
+             deleteTransaction,
            }}
         >
             {children}
