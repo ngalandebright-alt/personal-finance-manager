@@ -39,12 +39,21 @@ export default function BudgetProvider({
         ]);
     }
 
+    function deleteBudget(id: number ) {
+        setBudget((prev) =>
+        prev.filter(
+            (budget) => budget.id !== id
+        )
+    );
+    }
+
 
     return (
         <BudgetContext.Provider
             value={{
                 budget,
                 addBudget,
+                deleteBudget,
 
             }}
         >

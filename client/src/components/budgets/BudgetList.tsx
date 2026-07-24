@@ -15,7 +15,7 @@ export default function BudgetList() {
   if (!budgetContext || !transactionContext) return null;
 
 
-  const { budget } = budgetContext;
+  const { budget, deleteBudget } = budgetContext;
   const {transactions} = transactionContext;
 
 
@@ -92,6 +92,13 @@ export default function BudgetList() {
                   <p>
                     Remaining: ZMW {remaining}
                   </p>
+
+                  <button
+                     onClick={() => deleteBudget(item.id)}
+                     className="bg-red-600 text-white px-3 py-1 rounded"
+                    >
+                        Delete
+                    </button>
 
                 </div>
 
