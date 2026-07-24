@@ -5,6 +5,7 @@ import {
     FaWallet,
     FaBullseye,
     FaUser,
+    FaExchangeAlt,
 } from "react-icons/fa";
 
 const links = [
@@ -13,6 +14,7 @@ const links = [
     { name: "Expenses", path: "/expenses", icon: <FaWallet /> },
     { name: "Budgets", path: "/budgets", icon: <FaBullseye /> },
     { name: "Profile", path: "/profile", icon: <FaUser /> },
+    { name: "Transactions", path: "/transactions", icon: <FaExchangeAlt/>},
 ];
 
 export default function Sidebar() {

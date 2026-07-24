@@ -31,7 +31,7 @@ export default function EditTransaction({
     if (!context) return null;
 
     const { updateTransaction } = context;
-
+                                                                                                                                                                                    
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
