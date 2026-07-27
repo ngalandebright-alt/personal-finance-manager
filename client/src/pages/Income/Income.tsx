@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TransactionContext } from "../../context/TransactionContext";
+import AddIncome from "../../components/transactions/AddIncome";
 
 
 export default function AddExpense() {
@@ -33,6 +34,8 @@ export default function AddExpense() {
                     Track all your income sources.
                 </p>
             </div>
+
+            <AddIncome/>
 
             <div className="bg-white rounded-xl shadow p-6">
 
