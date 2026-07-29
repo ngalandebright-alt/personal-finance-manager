@@ -6,6 +6,7 @@ import {
     getTransactions,
     addTransaction as addTransactionApi,
     deleteTransaction as deleteTransactionApi,
+    updateTransaction as updateTransactionApi,
 } from "../api/transactionApi";
 
 
@@ -34,17 +35,31 @@ export default function TransactionProvider({
          loadTransactions();
     }, []);
 
-      function updateTransaction(updatedTransaction: Transaction) {
+ async function updateTransaction(updatedTransaction: Transaction) {
 
-  setTransactions((prev) =>
-    prev.map((transaction) =>
-      transaction.id === updatedTransaction.id
-        ? updatedTransaction
-        : transaction
-    )
-  );
+    try {
+        const response = await updateTransactionApi(
+            updatedTransaction.id,
+            updatedTransaction
+        );
 
-}
+        setTransactions((prev) =>
+        prev.map((transaction) =>
+           transaction.id === updatedTransaction.id
+             ? response.data.transaction
+             : transaction
+)
+
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Failed to update transaction:",
+            error
+        );
+    }
+ }
 
 
 

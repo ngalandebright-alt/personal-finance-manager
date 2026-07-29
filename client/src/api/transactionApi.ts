@@ -14,3 +14,9 @@ export const addTransaction = (transaction: unknown) =>
 export const deleteTransaction = (id: number) =>
     API.delete(`/transactions/${id}`);
 
+export const updateTransaction = (
+    id: number,
+    transaction: unknown
+) => 
+    API.put(`/transactions/${id}`, transaction);
+
