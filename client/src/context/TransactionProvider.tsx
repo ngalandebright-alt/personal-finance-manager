@@ -2,6 +2,12 @@ import { useState, useEffect, type ReactNode } from "react";
 import type { Transaction } from "../types/transaction";
 import { TransactionContext } from "./TransactionContext";
 
+import {
+    getTransactions,
+    addTransaction as addTransactionApi,
+    deleteTransaction as deleteTransactionApi,
+} from "../api/transactionApi";
+
 
 export default function TransactionProvider({
     children,
@@ -10,28 +16,23 @@ export default function TransactionProvider({
 }) {
 
 
-    const [transactions, setTransactions] = useState<Transaction[]>(() => {
-
-        const savedTransactions =
-        localStorage.getItem("transactions");
-
-
-        return savedTransactions
-         ?JSON.parse(savedTransactions)
-         :[];
-    });
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
 
 
     useEffect(() => {
-        localStorage.setItem(
-            "transactions",
-            JSON.stringify(transactions)
-        );
+        async function loadTransactions() {
+            try {
+                const response = await getTransactions();
 
+                setTransactions(response.data.transactions);
 
-    }, [transactions]);
+            } catch (error) {
+                console.error("Failed to load transactions:", error);
+            } 
+         }
 
-
+         loadTransactions();
+    }, []);
 
       function updateTransaction(updatedTransaction: Transaction) {
 
@@ -46,26 +47,37 @@ export default function TransactionProvider({
 }
 
 
-function deleteTransaction(id: number) {
 
-  setTransactions((prev) =>
-    prev.filter(
-      (transaction) => transaction.id !== id
-    )
-  );
+async function addTransaction(transaction: Transaction) {
 
-}
-
-
-
-    function addTransaction(transaction: Transaction) {
+    try{
+        const response = await addTransactionApi(transaction);
 
         setTransactions((prev) => [
             ...prev,
-            transaction
+            response.data.transaction,
         ]);
-    }
 
+    } catch (error) {
+
+        console.error(
+            "Failed to add transaction:",
+            error
+        );
+    }
+}
+
+async function deleteTransaction(id: number) {
+    try {
+        await deleteTransactionApi(id);
+
+        setTransactions((prev) =>
+        prev.filter((transaction) => transaction.id !== id)
+    );
+    } catch (error) {
+        console.error("Fialed to delete transaction:", error);
+    }
+}
 
     return(
         <TransactionContext.Provider
