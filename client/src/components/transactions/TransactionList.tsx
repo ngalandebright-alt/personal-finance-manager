@@ -116,7 +116,7 @@ function handleUpdate(e: React.FormEvent) {
         transactions.map((transaction: Transaction) => (
 
           <div
-            key={transaction.id}
+            key={transaction._id}
             className="border-b pb-3"
           >
 
@@ -171,15 +171,17 @@ function handleUpdate(e: React.FormEvent) {
                     Edit
                   </button>
 
+                   <button
+  onClick={() => {
+    console.log("CLICKED TRANSACTION:", transaction);
+    console.log("CLICKED ID:", transaction._id);
 
-                  <button
-                    onClick={() =>
-                      deleteTransaction(transaction.id)
-                    }
-                    className="bg-red-600 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+    deleteTransaction(transaction._id!);
+  }}
+  className="bg-red-600 text-white px-3 py-1 rounded"
+>
+  Delete
+</button>
 
                 </div>
 

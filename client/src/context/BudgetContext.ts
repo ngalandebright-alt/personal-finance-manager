@@ -4,7 +4,7 @@ import type { Budget } from "../types/budget";
 interface BudgetContextType {
     budget: Budget[];
     addBudget: (budget: Budget) => void;
-    deleteBudget: (id: number) => void;
+    deleteBudget: (id: string) => void;
 }
 
 export const BudgetContext = 

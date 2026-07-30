@@ -37,7 +37,7 @@ export default function EditTransaction({
         e.preventDefault();
 
         const updatedTransaction: Transaction = {
-            id: transaction.id,
+            _id: transaction._id,
             title,
             amount: Number(amount),
             type,

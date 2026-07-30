@@ -40,7 +40,7 @@ export default function RecentTransactions() {
           {transactions.map((transaction) => (
 
             <div
-              key={transaction.id}
+              key={transaction._id}
               className="flex items-center justify-between border-b pb-3"
             >
 
@@ -97,7 +97,7 @@ export default function RecentTransactions() {
 
                   <button
                     onClick={() =>
-                      deleteTransaction(transaction.id)
+                      deleteTransaction(transaction._id!)
                     }
                     className="bg-red-600 text-white px-3 py-1 rounded"
                   >

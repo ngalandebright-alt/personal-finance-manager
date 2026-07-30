@@ -39,7 +39,7 @@ export default function BudgetProvider({
         ]);
     }
 
-    function deleteBudget(id: number ) {
+    function deleteBudget(id: string ) {
         setBudget((prev) =>
         prev.filter(
             (budget) => budget.id !== id

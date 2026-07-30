@@ -99,7 +99,7 @@ export default function Transactions() {
                             {filteredTransactions.map((transaction)=> (
 
                                 <div
-                                   key={transaction.id}
+                                   key={transaction._id}
                                    className="flex justify-between border-b pb-3"
                                 >
 
@@ -146,7 +146,7 @@ export default function Transactions() {
 
                                             <button
                                                onClick={()=>
-                                                deleteTransaction(transaction.id)
+                                                deleteTransaction(transaction._id!)
                                                }
                                                className="bg-red-600 text-white px-3 py-1 rounded"
                                                >

@@ -1,65 +1,101 @@
-let transactions = [];
+const Transaction = require("../models/Transaction");
 
-const getTransactions = (req, res) => {
-    res.json({
-        success: true,
-        count: transactions.length,
-        transactions,
-    });
+const getTransactions = async (req, res) => {
+    try {
+        const transactions = await Transaction.find();
 
-};
+        res.json({
+            success: true,
+            count: transactions.length,
+            transactions,
+        });
 
-const addTransaction = (req, res) => {
-    const transaction = {
-        id: Date.now(),
-        ...req.body,
-    };
-
-    transactions.push(transaction);
-
-    res.status(201).json({
-        success: true,
-        transaction,
-    });
-
-};
-
-const updateTransaction = (req, res) => {
-    const id = Number(req.params.id);
-    const index  = transactions.findIndex(
-    (transaction) => transaction.id === id
-    );
-
-    if (index === -1) {
-        return res.status(404).json({
+    }catch (error) {
+        res.status(500).json({
             success: false,
-            message: "Transaction not found",
+            messaage: error.messaage,
+        });
+    }
+};
+
+const addTransaction =  async (req, res) => {
+    try {
+        const transaction = await Transaction.create(req.body);
+
+        res.status(201).json({
+            success: true,
+            transaction,
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
         });
     }
 
-    transactions[index] = {
-        ...transactions[index],
-        ...req.body,
-    };
-
-    res.json({
-        success: true,
-        transaction: transactions[index],
-
-    });
 };
 
-const deleteTransaction = (req, res) => {
-    const id = Number(req.params.id);
+const updateTransaction = async (req, res) => {
+    try {
+        const id = req.params.id;
 
-    transactions = transactions.filter(
-        (transaction) => transaction.id !== id
-    );
+        const transaction = await Transaction.findByIdAndUpdate(
+            id,
+            req.body,
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
 
-    res.json({
-        success: true,
-        message: "Transaction deleted successfully",
-    });
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                message: "Transaction not found",
+            });
+        }
+        res.json({
+            success: true,
+            transaction,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+const deleteTransaction = async (req, res) => {
+    try {
+
+        console.log("Delete ID:", req.params.id);
+
+        const transaction = await Transaction.findByIdAndDelete(
+            req.params.id
+        );
+
+        if (!transaction) {
+            return res.status(404).json({
+                success: false,
+                message: "Transaction not found",
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Transaction deleted successfully",
+        });
+
+    } catch (error) {
+
+        console.error("DELETE ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 };
 
 module.exports = {

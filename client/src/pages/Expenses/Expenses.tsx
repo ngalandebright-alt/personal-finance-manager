@@ -56,7 +56,7 @@ export default function Expenses() {
                     <div className="space-y-4">
                         {expenseTransactions.map((transaction) => (
                             <div
-                                key={transaction.id}
+                                key={transaction._id}
                                 className="flex justify-between border-b pb-3"
                             >
 

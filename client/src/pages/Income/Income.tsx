@@ -67,7 +67,7 @@ export default function AddExpense() {
                         {incomeTransactions.map((transaction)=> (
 
                             <div 
-                              key={transaction.id}
+                              key={transaction._id}
                               className="flex justify-between border-b pd-3"
                             >
 

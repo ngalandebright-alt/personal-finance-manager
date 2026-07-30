@@ -8,7 +8,7 @@ interface TransactionContextType {
 
   updateTransaction: (transaction: Transaction) => void;
 
-  deleteTransaction: (id: number) => void;
+  deleteTransaction: (id: string ) => void;
 }
 
 export const TransactionContext =

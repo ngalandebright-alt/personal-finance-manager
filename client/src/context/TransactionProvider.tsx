@@ -35,32 +35,28 @@ export default function TransactionProvider({
          loadTransactions();
     }, []);
 
- async function updateTransaction(updatedTransaction: Transaction) {
 
+async function updateTransaction(updatedTransaction: Transaction) {
     try {
         const response = await updateTransactionApi(
-            updatedTransaction.id,
+            updatedTransaction._id!,
             updatedTransaction
         );
 
         setTransactions((prev) =>
-        prev.map((transaction) =>
-           transaction.id === updatedTransaction.id
-             ? response.data.transaction
-             : transaction
-)
-
+            prev.map((transaction) =>
+                transaction._id === updatedTransaction._id
+                    ? response.data.transaction
+                    : transaction
+            )
         );
-
     } catch (error) {
-
         console.error(
             "Failed to update transaction:",
             error
         );
     }
- }
-
+}
 
 
 async function addTransaction(transaction: Transaction) {
@@ -82,15 +78,23 @@ async function addTransaction(transaction: Transaction) {
     }
 }
 
-async function deleteTransaction(id: number) {
+async function deleteTransaction(id: string) {
+    console.log("Provider DELETE ID:", id);
+
     try {
         await deleteTransactionApi(id);
 
         setTransactions((prev) =>
-        prev.filter((transaction) => transaction.id !== id)
-    );
+            prev.filter(
+                (transaction) => transaction._id !== id
+            )
+        );
+
     } catch (error) {
-        console.error("Fialed to delete transaction:", error);
+        console.error(
+            "Failed to delete transaction:",
+            error
+        );
     }
 }
 
