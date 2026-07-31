@@ -4,32 +4,36 @@ const transactionSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            require: true,
-            trim: true,
+            required: true,
         },
 
         amount: {
             type: Number,
-            require: true,
+            required: true,
         },
 
         type: {
             type: String,
             enum: ["income", "expense"],
-            require: true,
+            required: true,
         },
 
         category: {
             type: String,
-            require: true,
-        } ,
+            required: true,
+        },
 
         date: {
             type: String,
-            require: true,
+            required: true,
+        },
+
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
         },
     },
-
     {
         timestamps: true,
     }
