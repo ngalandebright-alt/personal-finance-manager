@@ -10,24 +10,23 @@ import {
 } from "recharts";
 
 import { TransactionContext } from "../../context/TransactionContext";
+import type { Transaction } from "../../types/transaction";
 
-type SpendingChartTransaction = {
-  amount: number;
-  type: "income" | "expense";
-  category?: string | null;
-};
 
 type SpendingChartContext = {
-  transactions: SpendingChartTransaction[];
+  transactions: Transaction[];
 };
+
 
 export default function SpendingChart() {
 
-  const context = useContext(TransactionContext) as unknown as SpendingChartContext | null;
+  const context = useContext(TransactionContext) as SpendingChartContext | null;
 
-   console.log("Transaction context:", context);
+  console.log("Transaction context:", context);
+
 
   if (!context) return null;
+
 
   const { transactions } = context;
 

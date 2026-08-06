@@ -52,19 +52,19 @@ export default function BudgetList() {
               );
 
 
-            const remaining = item.limit - spent;
+            const remaining = item.amount - spent;
 
 
             const percentage =
-              item.limit > 0
-                ? (spent / item.limit) * 100
+              item.amount > 0
+                ? (spent / item.amount) * 100
                 : 0;
 
 
             return (
 
               <div
-                key={item.id}
+                key={item._id}
                 className="border rounded-lg p-4 space-y-3"
               >
 
@@ -76,7 +76,7 @@ export default function BudgetList() {
 
 
                   <span className="font-bold text-blue-600">
-                    ZMW {item.limit}
+                    ZMW {item.amount}
                   </span>
 
                 </div>
@@ -94,7 +94,7 @@ export default function BudgetList() {
                   </p>
 
                   <button
-                     onClick={() => deleteBudget(item.id)}
+                     onClick={() => deleteBudget(item._id!)}
                      className="bg-red-600 text-white px-3 py-1 rounded"
                     >
                         Delete
@@ -115,10 +115,10 @@ export default function BudgetList() {
                 </div>
 
 
-                {spent > item.limit && (
+                {spent > item.amount && (
 
                   <p className="text-red-600 font-semibold">
-                    ⚠ Over Budget by ZMW {spent - item.limit}
+                    ⚠ Over Budget by ZMW {spent - item.amount}
                   </p>
 
                 )}

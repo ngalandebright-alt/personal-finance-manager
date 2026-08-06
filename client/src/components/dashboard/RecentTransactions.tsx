@@ -6,6 +6,9 @@ import type { Transaction } from "../../types/transaction";
 
 export default function RecentTransactions() {
 
+  const formMoney = (amount: number) =>
+    new Intl.NumberFormat("en-ZM").format(amount);
+
   const context = useContext(TransactionContext);
 
 
@@ -37,7 +40,13 @@ export default function RecentTransactions() {
 
         <div className="space-y-4">
 
-          {transactions.map((transaction) => (
+          {[...transactions]
+  .sort(
+    (a, b) =>
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+  )
+  .map((transaction) => (
 
             <div
               key={transaction._id}
@@ -77,7 +86,7 @@ export default function RecentTransactions() {
                     ? "+"
                     : "-"}
 
-                  ZMW {transaction.amount}
+                  ZMW {formMoney(transaction.amount)}
 
                 </p>
 

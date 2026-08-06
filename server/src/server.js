@@ -7,6 +7,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const transactionRoutes = require("./routes/transactionRoutes");
 const authRoutes = require("./routes/authRoutes");
+const budgetRoutes = require("./routes/budgetRoutes");
 
 
 
@@ -17,8 +18,9 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use("/api/transactions", transactionRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionRoutes)
+app.use("/api/budgets", budgetRoutes);
 
 
 app.get("/", (req, res) => {

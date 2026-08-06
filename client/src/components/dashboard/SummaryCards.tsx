@@ -20,15 +20,18 @@ export default function SummaryCards() {
 
    const balance = totalIncome - totalExpenses;
 
+   const formatMoney = (amount: number) =>
+    new Intl.NumberFormat("en-ZM").format(amount);
+
    return (
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-         <SummaryCard title="Total Balance" amount={`ZMW ${balance}`} color="text-blue-600" />
+         <SummaryCard title="Total Balance" amount={`ZMW ${formatMoney(balance)}`} color="text-blue-600" />
 
-         <SummaryCard title="Income" amount={`ZMW ${totalIncome}`} color="text-green-600" />
+         <SummaryCard title="Income" amount={`ZMW ${formatMoney(totalIncome)}`} color="text-green-600" />
 
-         <SummaryCard title="Expenses" amount={`ZMW ${totalExpenses}`} color="text-red-600" />
+         <SummaryCard title="Expenses" amount={`ZMW ${formatMoney(totalExpenses)}`} color="text-red-600" />
 
-         <SummaryCard title="Savings" amount={`ZMW ${balance}`} color="text-red-600" />
+         <SummaryCard title="Savings" amount={`ZMW ${formatMoney(balance)}`} color="text-green-600" />
       </div>
    );
 }

@@ -1,52 +1,92 @@
-import { useEffect, useState, type ReactNode } from "react";
+import {
+    useState,
+    useEffect,
+    useContext,
+    type ReactNode,
+} from "react";
+
 import type { Budget } from "../types/budget";
 import { BudgetContext } from "./BudgetContext";
+import { AuthContext } from "./AuthContext";
 
+import {
+    getBudgets,
+    addBudget as addBudgetApi,
+    deleteBudget as deleteBudgetApi,
+} from "../api/budgetApi";
 
 export default function BudgetProvider({
     children,
-
 }: {
     children: ReactNode;
 }) {
 
-    const [budget, setBudget] = useState<Budget[]>(() => {
+    const auth = useContext(AuthContext);
 
-
-        const savedBudgets =
-            localStorage.getItem("budgets");
-        
-        return savedBudgets 
-          ? JSON.parse(savedBudgets)
-          : [];
-    });
+    const [budget, setBudget] = useState<Budget[]>([]);
 
     useEffect(() => {
-        localStorage.setItem(
-            "budgets",
-            JSON.stringify(budget)
-        );
 
+        if (!auth?.token) return;
 
-    }, [budget]);
+        async function loadBudgets() {
+            try {
 
-      
-    function addBudget(newBudget: Budget) {
+                const response = await getBudgets();
 
-        setBudget((prev) => [
-            ...prev,
-            newBudget
-        ]);
+                setBudget(response.data.budgets);
+
+            } catch (error) {
+                console.error(
+                    "Failed to load budgets:",
+                    error
+                );
+            }
+        }
+
+        loadBudgets();
+
+    }, [auth?.token]);
+
+    async function addBudget(newBudget: Budget) {
+
+        try {
+
+            const response =
+                await addBudgetApi(newBudget);
+
+            setBudget((prev) => [
+                ...prev,
+                response.data.budget,
+            ]);
+
+        } catch (error) {
+            console.error(
+                "Failed to add budget:",
+                error
+            );
+        }
     }
 
-    function deleteBudget(id: string ) {
-        setBudget((prev) =>
-        prev.filter(
-            (budget) => budget.id !== id
-        )
-    );
-    }
+    async function deleteBudget(id: string) {
 
+        try {
+
+            await deleteBudgetApi(id);
+
+            setBudget((prev) =>
+                prev.filter(
+                    (budget) => budget._id !== id
+                )
+            );
+
+        } catch (error) {
+            console.error(
+                "Failed to delete budget:",
+                error
+            );
+        }
+    }
 
     return (
         <BudgetContext.Provider
@@ -54,7 +94,6 @@ export default function BudgetProvider({
                 budget,
                 addBudget,
                 deleteBudget,
-
             }}
         >
             {children}

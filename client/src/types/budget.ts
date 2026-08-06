@@ -1,5 +1,5 @@
 export interface Budget {
-    id: string;
+    _id?: string;
     category: string;
-    limit: number;
+    amount: number;
 }

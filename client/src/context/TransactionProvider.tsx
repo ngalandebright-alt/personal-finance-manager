@@ -1,6 +1,7 @@
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect,useContext, type ReactNode, } from "react";
 import type { Transaction } from "../types/transaction";
 import { TransactionContext } from "./TransactionContext";
+import { AuthContext } from "./AuthContext";
 
 import {
     getTransactions,
@@ -17,24 +18,26 @@ export default function TransactionProvider({
 }) {
 
 
+    const auth = useContext(AuthContext);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
 
 
-    useEffect(() => {
-        async function loadTransactions() {
-            try {
-                const response = await getTransactions();
+useEffect(() => {
+    if (!auth?.token) {
+        return;
+    }
 
-                setTransactions(response.data.transactions);
+    async function loadTransactions() {
+        try {
+            const response = await getTransactions();
+            setTransactions(response.data.transactions);
+        } catch (error) {
+            console.error("Failed to load transactions:", error);
+        }
+    }
 
-            } catch (error) {
-                console.error("Failed to load transactions:", error);
-            } 
-         }
-
-         loadTransactions();
-    }, []);
-
+    loadTransactions();
+}, [auth?.token]);
 
 async function updateTransaction(updatedTransaction: Transaction) {
     try {

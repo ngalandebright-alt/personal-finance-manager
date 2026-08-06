@@ -1,44 +1,44 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Profile() {
 
-    const savedProfile = localStorage.getItem("profile");
+    const auth = useContext(AuthContext);
 
-    const profile = savedProfile
-        ? JSON.parse(savedProfile)
-        : {
-            name: "",
-            email: "",
-            currency: "ZMW",
-        };
+    const user = auth?.user;
 
 
-    const [name, setName] = useState(profile.name);
-    const [email, setEmail] = useState(profile.email);
-    const [currency, setCurrency] = useState(profile.currency);
+    const [name, setName] = useState(user?.name || "");
+    const [email, setEmail] = useState(user?.email || "");
+    const [currency, setCurrency] = useState("ZMW");
 
 
-    function handleSubmit(e: React.FormEvent) {
-
-        e.preventDefault();
+    if (!auth) return null;
 
 
-        const updatedProfile = {
+    async function handleSubmit(e: React.FormEvent) {
+
+    e.preventDefault();
+
+    try {
+
+        await auth?.updateProfile(
             name,
-            email,
-            currency,
-        };
-
-
-        localStorage.setItem(
-            "profile",
-            JSON.stringify(updatedProfile)
+            email
         );
 
+        alert("Profile updated successfully");
 
-        alert("Profile saved successfully");
+    } catch (error) {
+
+        console.error(
+            "Profile update failed:",
+            error
+        );
+
+        alert("Failed to update profile");
     }
-
+}
 
     return (
         <div className="space-y-6">
@@ -64,7 +64,9 @@ export default function Profile() {
                     type="text"
                     placeholder="Your name"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) =>
+                        setName(e.target.value)
+                    }
                 />
 
 
@@ -73,14 +75,18 @@ export default function Profile() {
                     type="email"
                     placeholder="Your email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) =>
+                        setEmail(e.target.value)
+                    }
                 />
 
 
                 <select
                     className="w-full border rounded p-2"
                     value={currency}
-                    onChange={(e) => setCurrency(e.target.value)}
+                    onChange={(e) =>
+                        setCurrency(e.target.value)
+                    }
                 >
 
                     <option value="ZMW">
