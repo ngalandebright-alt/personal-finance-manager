@@ -6,13 +6,13 @@ export default function Dashboard() {
   return (
      <div className="space-y-8">
         {/*Header*/}
-      <div>
-        <h1 className="text-3xl font-bold">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
           Dashboard
         </h1>
 
         <p className="text-gray-500">
-          Welcome to your Personal Finance Manager.
+          Welcome back! Here's an overview of your finances.
         </p>
       </div>
 

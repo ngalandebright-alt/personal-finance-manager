@@ -23,11 +23,17 @@ export default function RecentTransactions() {
 
 
   return (
-    <div className="rounded-xl bg-white p-6 shadow-md">
+    <div className="rounded-xl bg-white border border-slate-300 p-6 shadow-sm">
 
-      <h2 className="mb-4 text-xl font-semibold">
-        Recent Transactions
-      </h2>
+     <div className="mb-5">
+  <h2 className="text-xl font-semibold text-slate-900">
+    Recent Transactions
+  </h2>
+
+  <p className="mt-1 text-sm text-slate-500">
+    Your latest income and expenses
+  </p>
+</div>
 
 
       {transactions.length === 0 ? (
@@ -40,17 +46,11 @@ export default function RecentTransactions() {
 
         <div className="space-y-4">
 
-          {[...transactions]
-  .sort(
-    (a, b) =>
-      new Date(b.date).getTime() -
-      new Date(a.date).getTime()
-  )
-  .map((transaction) => (
+          {transactions.map((transaction) => (
 
             <div
               key={transaction._id}
-              className="flex items-center justify-between border-b pb-3"
+              className="flex items-center justify-between border-b border-slate-400 pb-4"
             >
 
               <div>
@@ -60,12 +60,12 @@ export default function RecentTransactions() {
                 </h3>
 
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-slate-500">
                   {transaction.category}
                 </p>
 
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-slate-500">
                   {transaction.date}
                 </p>
 
@@ -98,7 +98,7 @@ export default function RecentTransactions() {
                     onClick={() =>
                       setSelectedTransaction(transaction)
                     }
-                    className="bg-blue-600 text-white px-3 py-1 rounded"
+                    className="bg-blue-600 text-white px-3 py-1 rounded transition-all duration-200 hover:bg-blue-700 hover:scale-105 active:scale-95"
                   >
                     Edit
                   </button>
@@ -108,7 +108,7 @@ export default function RecentTransactions() {
                     onClick={() =>
                       deleteTransaction(transaction._id!)
                     }
-                    className="bg-red-600 text-white px-3 py-1 rounded"
+                    className="bg-red-600 text-white px-3 py-1 rounded transition-all duration-200 hover:bg-red-700 hover:scale-105 active:scale-95"
                   >
                     Delete
                   </button>

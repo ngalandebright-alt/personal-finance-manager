@@ -69,7 +69,7 @@ export default function AddBudget() {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white rounded-lg py-3"
+                    className="w-full bg-blue-600 text-white rounded-lg py-3 transition-all duration-200 hover:bg-blue-700 hover:scale-[1.01] active:scale-[0.98]"
                 >
                     Add Budget
                 </button>

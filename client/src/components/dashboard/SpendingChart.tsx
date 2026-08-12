@@ -73,48 +73,65 @@ export default function SpendingChart() {
   const data = Object.values(groupedData);
 
 
-  return (
-    <div className="rounded-xl bg-white p-6 shadow-md">
+return (
+  <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
 
-      <h2 className="mb-6 text-xl font-semibold">
+    <div className="mb-6">
+      <h2 className="text-xl font-semibold text-slate-900">
         Spending Overview
       </h2>
 
-
-      <div className="h-80">
-
-        <ResponsiveContainer width="100%" height="100%">
-
-          <BarChart data={data}>
-
-            <CartesianGrid strokeDasharray="3 3" />
-
-            <XAxis dataKey="name" />
-
-            <YAxis />
-
-            <Tooltip />
-
-
-            <Bar
-              dataKey="income"
-              fill="#16a34a"
-              name="Income"
-            />
-
-
-            <Bar
-              dataKey="expenses"
-              fill="#dc2626"
-              name="Expenses"
-            />
-
-          </BarChart>
-
-        </ResponsiveContainer>
-
-      </div>
-
+      <p className="mt-1 text-sm text-slate-500">
+        Income and expenses by category
+      </p>
     </div>
-  );
+
+    <div className="h-80">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={data}
+          margin={{
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={false}
+          />
+
+          <XAxis
+            dataKey="name"
+            axisLine={false}
+            tickLine={false}
+          />
+
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+          />
+
+          <Tooltip />
+
+          <Bar
+            dataKey="income"
+            fill="#16a34a"
+            name="Income"
+            radius={[6, 6, 0, 0]}
+          />
+
+          <Bar
+            dataKey="expenses"
+            fill="#dc2626"
+            name="Expenses"
+            radius={[6, 6, 0, 0]}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+
+  </div>
+);
 }

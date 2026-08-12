@@ -65,24 +65,29 @@ export default function BudgetList() {
 
               <div
                 key={item._id}
-                className="border rounded-lg p-4 space-y-3"
+                className="border-slate-200 rounded-xl p-5 space-y-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
               >
 
-                <div className="flex justify-between">
+                <div className="flex items-center justify-between">
 
-                  <h3 className="font-semibold">
-                    {item.category}
-                  </h3>
+  <div>
+    <h3 className="font-semibold text-slate-900">
+      {item.category}
+    </h3>
+
+    <p className="mt-1 text-xs text-slate-500">
+      Monthly budget
+    </p>
+  </div>
+
+  <span className="text-lg font-bold text-blue-600">
+    ZMW {item.amount}
+  </span>
+
+</div>
 
 
-                  <span className="font-bold text-blue-600">
-                    ZMW {item.amount}
-                  </span>
-
-                </div>
-
-
-                <div className="text-sm">
+                <div className="flex items-center justify-between text-sm">
 
                   <p>
                     Spent: ZMW {spent}
@@ -95,7 +100,7 @@ export default function BudgetList() {
 
                   <button
                      onClick={() => deleteBudget(item._id!)}
-                     className="bg-red-600 text-white px-3 py-1 rounded"
+                     className="bg-red-600 text-white px-3 py-1 rounded transition-all duration-200 hover:bg-red-700 hover:scale-105 active:scale-95"
                     >
                         Delete
                     </button>
