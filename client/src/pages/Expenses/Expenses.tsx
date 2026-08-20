@@ -1,9 +1,13 @@
 import { useContext } from "react";
 import { TransactionContext } from "../../context/TransactionContext";
 import AddExpense from "../../components/transactions/AddExpense";
+import { useCurrency } from "../../hooks/useCurrency";
+import { formatCurrency } from "../../utils/currency";
 
 export default function Expenses() {
   const context = useContext(TransactionContext);
+
+  const { currency } = useCurrency();
 
   if (!context) return null;
 
@@ -42,7 +46,7 @@ export default function Expenses() {
         </p>
 
         <p className="mt-2 text-3xl font-bold tracking-tight text-red-600">
-          ZMW {totalExpenses}
+          {formatCurrency(totalExpenses, currency)}
         </p>
 
         <p className="mt-2 text-sm text-slate-500">
@@ -65,19 +69,15 @@ export default function Expenses() {
         </div>
 
         {expenseTransactions.length === 0 ? (
-
           <div className="rounded-lg bg-slate-50 p-6 text-center">
             <p className="text-slate-500">
               No expense transactions yet.
             </p>
           </div>
-
         ) : (
-
           <div className="space-y-1">
 
             {expenseTransactions.map((transaction) => (
-
               <div
                 key={transaction._id}
                 className="
@@ -107,16 +107,17 @@ export default function Expenses() {
 
                 <div className="text-right">
                   <p className="font-bold text-red-600">
-                    - ZMW {transaction.amount}
+                    - {formatCurrency(
+                      transaction.amount,
+                      currency
+                    )}
                   </p>
                 </div>
 
               </div>
-
             ))}
 
           </div>
-
         )}
 
       </div>

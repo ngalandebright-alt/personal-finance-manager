@@ -10,14 +10,18 @@ import Budgets from "./pages/Budgets/Budgets";
 import Profile from "./pages/Profile/Profile";
 import Transactions from "./pages/Transactions";
 import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+import  CurrencyProvider  from "./context/CurrencyProvider";
 
 
 export default function App() {
   return (
+    <CurrencyProvider>
     <BrowserRouter>
       <Routes>
 
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoute/>}>
           <Route element={<DashboardLayout />}>
@@ -32,5 +36,6 @@ export default function App() {
 
       </Routes>
     </BrowserRouter>
+    </CurrencyProvider>
   );
 }

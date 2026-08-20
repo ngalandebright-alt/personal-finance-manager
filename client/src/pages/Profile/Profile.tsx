@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useCurrency } from "../../hooks/useCurrency";
 
 export default function Profile() {
+    const { currency, setCurrency } = useCurrency();
   const savedProfile = localStorage.getItem("profile");
 
   const profile = savedProfile
@@ -13,7 +15,7 @@ export default function Profile() {
 
   const [name, setName] = useState(profile.name);
   const [email, setEmail] = useState(profile.email);
-  const [currency, setCurrency] = useState(profile.currency);
+
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

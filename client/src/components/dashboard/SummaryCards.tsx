@@ -2,36 +2,71 @@ import { useContext } from "react";
 import SummaryCard from "./SummaryCard";
 import { TransactionContext } from "../../context/TransactionContext";
 import type { Transaction } from "../../types/transaction";
-
-
+import { useCurrency } from "../../hooks/useCurrency";
+import { formatCurrency } from "../../utils/currency";
 
 export default function SummaryCards() {
-   const context = useContext(TransactionContext);
-   if (!context) return null;
-   const { transactions } = context
+  const context = useContext(TransactionContext);
 
-   const totalIncome = transactions
-      .filter((transaction: Transaction) => transaction.type === "income")
-      .reduce((total: number, transaction: Transaction) => total + transaction.amount, 0);
+  const { currency } = useCurrency();
 
-   const totalExpenses = transactions
-      .filter((transaction: Transaction) => transaction.type === "expense")
-      .reduce((total: number, transaction: Transaction) => total + transaction.amount, 0);
+  if (!context) {
+    return null;
+  }
 
-   const balance = totalIncome - totalExpenses;
+  const { transactions } = context;
 
-   const formatMoney = (amount: number) =>
-    new Intl.NumberFormat("en-ZM").format(amount);
+  const totalIncome = transactions
+    .filter(
+      (transaction: Transaction) =>
+        transaction.type === "income"
+    )
+    .reduce(
+      (total: number, transaction: Transaction) =>
+        total + transaction.amount,
+      0
+    );
 
-   return (
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-         <SummaryCard title="Total Balance" amount={`ZMW ${formatMoney(balance)}`} color="text-blue-600" />
+  const totalExpenses = transactions
+    .filter(
+      (transaction: Transaction) =>
+        transaction.type === "expense"
+    )
+    .reduce(
+      (total: number, transaction: Transaction) =>
+        total + transaction.amount,
+      0
+    );
 
-         <SummaryCard title="Income" amount={`ZMW ${formatMoney(totalIncome)}`} color="text-green-600" />
+  const balance = totalIncome - totalExpenses;
 
-         <SummaryCard title="Expenses" amount={`ZMW ${formatMoney(totalExpenses)}`} color="text-red-600" />
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-         <SummaryCard title="Savings" amount={`ZMW ${formatMoney(balance)}`} color="text-green-600" />
-      </div>
-   );
+      <SummaryCard
+        title="Total Balance"
+        amount={formatCurrency(balance, currency)}
+        color="text-blue-600"
+      />
+
+      <SummaryCard
+        title="Income"
+        amount={formatCurrency(totalIncome, currency)}
+        color="text-green-600"
+      />
+
+      <SummaryCard
+        title="Expenses"
+        amount={formatCurrency(totalExpenses, currency)}
+        color="text-red-600"
+      />
+
+      <SummaryCard
+        title="Savings"
+        amount={formatCurrency(balance, currency)}
+        color="text-green-600"
+      />
+
+    </div>
+  );
 }

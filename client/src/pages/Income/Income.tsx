@@ -1,9 +1,13 @@
 import { useContext } from "react";
 import { TransactionContext } from "../../context/TransactionContext";
 import AddIncome from "../../components/transactions/AddIncome";
+import { useCurrency } from "../../hooks/useCurrency";
+import { formatCurrency } from "../../utils/currency";
 
-export default function AddExpense() {
+export default function Income() {
   const context = useContext(TransactionContext);
+
+  const { currency } = useCurrency();
 
   if (!context) return null;
 
@@ -40,7 +44,7 @@ export default function AddExpense() {
         </p>
 
         <p className="mt-2 text-3xl font-bold tracking-tight text-green-600">
-          ZMW {totalIncome}
+          {formatCurrency(totalIncome, currency)}
         </p>
 
         <p className="mt-2 text-sm text-slate-500">
@@ -63,19 +67,15 @@ export default function AddExpense() {
         </div>
 
         {incomeTransactions.length === 0 ? (
-
           <div className="rounded-lg bg-slate-50 p-6 text-center">
             <p className="text-slate-500">
               No income transactions yet.
             </p>
           </div>
-
         ) : (
-
           <div className="space-y-1">
 
             {incomeTransactions.map((transaction) => (
-
               <div
                 key={transaction._id}
                 className="
@@ -88,7 +88,6 @@ export default function AddExpense() {
                   last:border-0
                 "
               >
-
                 <div>
                   <h3 className="font-semibold text-slate-900">
                     {transaction.title}
@@ -101,16 +100,16 @@ export default function AddExpense() {
 
                 <div className="text-right">
                   <p className="font-bold text-green-600">
-                    + ZMW {transaction.amount}
+                    + {formatCurrency(
+                      transaction.amount,
+                      currency
+                    )}
                   </p>
                 </div>
-
               </div>
-
             ))}
 
           </div>
-
         )}
 
       </div>
